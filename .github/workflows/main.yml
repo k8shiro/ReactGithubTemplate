@@ -1,0 +1,25 @@
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: build app
+      run: |
+        docker-compose run --rm node ash -c 'cd $REACT_APP_NAME; npm install; yarn build; cp -rf build /usr/src/app/; ls;'
+        ls
+    - name: TMP
+      run: echo aaaaa > aaaaa.txt
+    - name: TMP
+      run: ls app
+    - uses: crazy-max/ghaction-github-pages@v1
+      with:
+        target_branch: gh-pages
+        build_dir: app/build
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
